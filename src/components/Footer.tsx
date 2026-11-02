@@ -131,7 +131,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenLocation, onSelectCategory
                 <span>Call: {STORE_PHONE}</span>
               </a>
               <p className="text-zinc-500 text-[11px] leading-relaxed">
-                Wholesale Minimum: 6 pieces per style, or 1/2 bale bundle. In-person inspection and pickup available at our Yaba shop.
+                No strict minimums: Order single pieces for personal wear or bulk bundles for reselling. In-person inspection and pickup available at our Yaba shop.
               </p>
               <div className="pt-2">
                 <button

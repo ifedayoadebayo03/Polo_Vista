@@ -47,9 +47,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           </span>
         </div>
 
-        {/* MOQ Tag bottom right */}
-        <div className="absolute bottom-2.5 right-2.5 bg-zinc-950/80 backdrop-blur-sm px-2 py-0.5 rounded text-[10px] font-mono text-zinc-300 border border-zinc-800">
-          MOQ: {product.minQuantity} pcs
+        {/* Flexible Quantity Tag bottom right */}
+        <div className="absolute bottom-2.5 right-2.5 bg-zinc-950/80 backdrop-blur-sm px-2 py-0.5 rounded text-[10px] font-mono text-amber-400 border border-zinc-800">
+          Single or Bulk
         </div>
       </div>
 
@@ -87,9 +87,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             </div>
             <div className="text-[11px] text-amber-400/90 font-mono">
               {product.bundlePrice ? (
-                <span>Bundle: {formatNaira(product.bundlePrice)}</span>
+                <span>Bundle Deal: {formatNaira(product.bundlePrice)}</span>
               ) : (
-                <span>Pack ({product.minQuantity} pcs): {formatNaira(product.wholesalePackPrice)}</span>
+                <span>Bulk discounts on 6+ pcs</span>
               )}
             </div>
           </div>
@@ -100,10 +100,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           <button
             onClick={() => onQuickAdd(product)}
             className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg bg-amber-400 hover:bg-amber-300 active:scale-95 text-zinc-950 text-xs font-bold transition-all cursor-pointer whitespace-nowrap shadow-sm"
-            title="Quick add mixed size pack"
+            title="Add 1 piece to bag"
           >
             <Plus className="w-3.5 h-3.5" />
-            <span>Quick Add</span>
+            <span>+1 Add</span>
           </button>
 
           <button
@@ -111,7 +111,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg bg-zinc-800 hover:bg-zinc-700 active:scale-95 text-zinc-200 text-xs font-semibold transition-all cursor-pointer whitespace-nowrap"
           >
             <Layers className="w-3.5 h-3.5" />
-            <span>Options</span>
+            <span>Pick Qty</span>
           </button>
         </div>
       </div>

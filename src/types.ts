@@ -11,9 +11,9 @@ export interface Product {
   name: string;
   category: Category;
   pricePerPiece: number;
-  wholesalePackPrice: number; // 6-piece starter pack
-  bundlePrice?: number; // 25-piece or 50-piece bundle
-  minQuantity: number;
+  wholesalePackPrice?: number; // bulk price reference
+  bundlePrice?: number; // bundle deal
+  minQuantity?: number;
   image: string;
   gallery?: string[];
   colors: string[];

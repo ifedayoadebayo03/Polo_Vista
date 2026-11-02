@@ -17,7 +17,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
 }) => {
   const [selectedSize, setSelectedSize] = useState<string>('Mixed (Wholesale)');
   const [selectedColor, setSelectedColor] = useState<string>('');
-  const [quantity, setQuantity] = useState<number>(6);
+  const [quantity, setQuantity] = useState<number>(1);
   const [activeImage, setActiveImage] = useState<string>('');
 
   // Sync state whenever product changes
@@ -25,7 +25,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
     if (product) {
       setSelectedSize(product.sizes[0] || 'Mixed (Wholesale)');
       setSelectedColor(product.colors[0] || 'Default');
-      setQuantity(product.minQuantity || 6);
+      setQuantity(1);
       setActiveImage(product.image);
     }
   }, [product]);
@@ -43,7 +43,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
 
   if (!product) return null;
 
-  const minQty = product.minQuantity || 6;
+  const minQty = 1;
   const totalPrice = product.pricePerPiece * quantity;
   
   // Reseller profit projection estimation (street price ~ ₦8,000 - ₦10,000 per piece)
@@ -232,22 +232,32 @@ export const ProductModal: React.FC<ProductModalProps> = ({
             <div>
               <div className="flex items-center justify-between text-xs mb-2">
                 <span className="font-bold text-zinc-300">Quantity (Pieces):</span>
-                <span className="text-xs text-zinc-400">Minimum Wholesale MOQ: {minQty} pcs</span>
+                <span className="text-xs text-amber-400 font-medium">
+                  {quantity >= 6 ? 'Bulk Wholesale Tier Applied' : 'Single / Retail Unit'}
+                </span>
               </div>
 
               <div className="flex items-center gap-3">
                 <div className="flex items-center bg-zinc-950 border border-zinc-700 rounded-lg p-1">
                   <button
                     onClick={handleDecrement}
-                    disabled={quantity <= minQty}
-                    className="w-8 h-8 flex items-center justify-center rounded bg-zinc-800 hover:bg-zinc-700 disabled:opacity-40 disabled:cursor-not-allowed text-zinc-200 transition-colors"
+                    disabled={quantity <= 1}
+                    className="w-8 h-8 flex items-center justify-center rounded bg-zinc-800 hover:bg-zinc-700 disabled:opacity-30 disabled:cursor-not-allowed text-zinc-200 transition-colors"
                     aria-label="Decrease quantity"
                   >
                     <Minus className="w-3.5 h-3.5" />
                   </button>
-                  <span className="w-14 text-center font-bold text-base tabular-nums text-white">
-                    {quantity}
-                  </span>
+                  <input
+                    type="number"
+                    min="1"
+                    value={quantity}
+                    onChange={(e) => {
+                      const val = parseInt(e.target.value, 10);
+                      setQuantity(isNaN(val) || val < 1 ? 1 : val);
+                    }}
+                    className="w-14 text-center font-bold text-base tabular-nums text-white bg-transparent focus:outline-none"
+                    aria-label="Enter quantity"
+                  />
                   <button
                     onClick={handleIncrement}
                     className="w-8 h-8 flex items-center justify-center rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-200 transition-colors"
@@ -258,42 +268,43 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                 </div>
 
                 {/* Quick Presets */}
-                <div className="flex items-center gap-1.5 flex-1">
-                  <button
-                    onClick={() => setQuantity(6)}
-                    className={`px-2.5 py-1.5 rounded text-xs font-semibold border transition-colors ${
-                      quantity === 6 ? 'bg-amber-400/20 border-amber-400 text-amber-300' : 'bg-zinc-800 border-zinc-700 text-zinc-400'
-                    }`}
-                  >
-                    6 Pcs
-                  </button>
-                  <button
-                    onClick={() => setQuantity(12)}
-                    className={`px-2.5 py-1.5 rounded text-xs font-semibold border transition-colors ${
-                      quantity === 12 ? 'bg-amber-400/20 border-amber-400 text-amber-300' : 'bg-zinc-800 border-zinc-700 text-zinc-400'
-                    }`}
-                  >
-                    12 Pcs (Half)
-                  </button>
-                  <button
-                    onClick={() => setQuantity(24)}
-                    className={`px-2.5 py-1.5 rounded text-xs font-semibold border transition-colors ${
-                      quantity === 24 ? 'bg-amber-400/20 border-amber-400 text-amber-300' : 'bg-zinc-800 border-zinc-700 text-zinc-400'
-                    }`}
-                  >
-                    24 Pcs (Bale)
-                  </button>
+                <div className="flex flex-wrap items-center gap-1.5 flex-1">
+                  {[
+                    { label: '1 Pc', qty: 1 },
+                    { label: '3 Pcs', qty: 3 },
+                    { label: '6 Pcs', qty: 6 },
+                    { label: '12 Pcs', qty: 12 },
+                    { label: '24 Pcs', qty: 24 },
+                  ].map((preset) => (
+                    <button
+                      key={preset.qty}
+                      type="button"
+                      onClick={() => setQuantity(preset.qty)}
+                      className={`px-2.5 py-1.5 rounded text-xs font-semibold border transition-colors cursor-pointer ${
+                        quantity === preset.qty
+                          ? 'bg-amber-400 text-zinc-950 border-amber-400 font-bold shadow-sm'
+                          : 'bg-zinc-800 border-zinc-700 text-zinc-300 hover:text-white hover:border-zinc-500'
+                      }`}
+                    >
+                      {preset.label}
+                    </button>
+                  ))}
                 </div>
               </div>
             </div>
 
             {/* Reseller Profit Margin Projection */}
-            <div className="p-3 rounded-xl bg-emerald-950/40 border border-emerald-800/50 flex items-start gap-2.5">
+            <div className="p-3 rounded-xl bg-zinc-950 border border-zinc-800 flex items-start gap-2.5">
               <TrendingUp className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
               <div className="text-xs">
-                <span className="font-bold text-emerald-300 block">Wholesale Reseller Margin:</span>
-                <span className="text-zinc-300">
-                  Est. resale value: <span className="font-semibold text-white">{formatNaira(estimatedTotalResale)}</span> (est. profit: <span className="text-emerald-400 font-bold">+{formatNaira(estimatedProfit)}</span>).
+                <span className="font-bold text-white block">Flexible Ordering:</span>
+                <span className="text-zinc-400">
+                  Buy as little as <strong className="text-zinc-200">1 piece</strong> to test quality, or order 6+ pieces for bulk reselling.
+                  {quantity >= 6 && (
+                    <span className="block mt-1 text-emerald-400">
+                      Est. resale margin on {quantity} pcs: +{formatNaira(estimatedProfit)}
+                    </span>
+                  )}
                 </span>
               </div>
             </div>
@@ -305,7 +316,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                 className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-amber-400 hover:bg-amber-300 active:scale-98 text-zinc-950 font-black text-sm transition-all shadow-md cursor-pointer"
               >
                 <ShoppingBag className="w-4 h-4" />
-                <span>Add {quantity} Pieces to Wholesale Bag • {formatNaira(totalPrice)}</span>
+                <span>Add {quantity} {quantity === 1 ? 'Piece' : 'Pieces'} to Bag • {formatNaira(totalPrice)}</span>
               </button>
 
               <button

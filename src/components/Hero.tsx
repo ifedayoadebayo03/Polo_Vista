@@ -53,7 +53,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreShop, onOpenLocation }) => 
                   </span>
                 </div>
                 <div className="text-xs text-zinc-400 mt-0.5">
-                  Or pick customized 6-Piece Starter Packs per item.
+                  Order any quantity — buy 1 piece or full bales.
                 </div>
               </div>
 
@@ -103,7 +103,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreShop, onOpenLocation }) => 
               </div>
               <div className="flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 text-amber-400 shrink-0" />
-                <span>Verified Wholesale MOQ</span>
+                <span>Single & Bulk Orders</span>
               </div>
             </div>
           </div>

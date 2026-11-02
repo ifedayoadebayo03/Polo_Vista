@@ -83,7 +83,7 @@ export default function App() {
           color: effectiveColor,
           quantity,
           unitPrice: product.pricePerPiece,
-          minQuantity: product.minQuantity || 6,
+          minQuantity: 1,
         },
       ];
     });
@@ -105,13 +105,13 @@ export default function App() {
     }, 3200);
   };
 
-  // Quick Add 1 wholesale pack (6 pcs Mixed)
+  // Quick Add 1 piece
   const handleQuickAdd = (product: Product) => {
     handleAddToCart(
       product,
       product.sizes[0] || 'Mixed (Wholesale)',
       product.colors[0] || 'Default',
-      product.minQuantity || 6
+      1
     );
   };
 
@@ -222,7 +222,7 @@ export default function App() {
             Wholesale Streetwear & Apparel
           </h2>
           <p className="text-xs sm:text-sm text-zinc-400">
-            Select an item to choose exact sizes (S to XXL or mixed bundle) and quantities. Minimum wholesale order: 6 pieces.
+            Select an item to choose exact sizes, colors, and the exact quantity you want (1 piece, small packs, or wholesale bales).
           </p>
         </div>
 
